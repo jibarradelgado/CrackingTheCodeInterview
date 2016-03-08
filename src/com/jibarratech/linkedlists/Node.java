@@ -1,5 +1,8 @@
 package com.jibarratech.linkedlists;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Jorge on 2016-02-02.
  */
@@ -38,6 +41,7 @@ public class Node {
     Node deleteNode(Node head, int d){
         Node n = head;
 
+        //If the head is deleted, return the rest of the list
         if(n.data == d){
             return head.next; //moved head
         }
@@ -54,14 +58,87 @@ public class Node {
 
     /**
      * Write code to remove duplicates from an unsorted linked list.
+     */
+    public void removeDuplicates(Node head) {
+        Node n = head;
+
+        Map<Integer, Integer> map = new HashMap<>();
+
+        Node previous = null;
+
+        while (n != null) {
+            if (map.containsKey(n.data)) {
+                previous.next = n.next;
+            } else {
+                map.put(n.data, 1);
+                previous = n;
+            }
+            n = n.next;
+        }
+
+    }
+
+    /**
      * FOLLOW UP
      * How would you solve this problem if a temporary buffer is not allowed?
      */
+    public void removeDuplicatesNoBuffer(Node head) {
+        if (head == null) return;
 
+        Node current = head;
+        while (current != null) {
+            Node runner = current;
+            while (runner.next != null) {
+                if (runner.next.data == current.data) {
+                    runner.next = runner.next.next;
+                } else {
+                    runner = runner.next;
+                }
+            }
+            current = current.next;
+        }
+    }
+
+    public class IntWrapper {
+        public int value = 0;
+    }
 
     /**
      * Implement an algorithm to find the kth to last element of a singly linked list
      */
+    public Node nthToLastRecursive(Node head, int k){
+        return nthToLastRecursive(head, k, new IntWrapper());
+    }
+
+    public Node nthToLastRecursive(Node head, int k, IntWrapper i){
+        if(head == null) return null;
+
+        Node node = nthToLastRecursive(head.next, k, i);
+        i.value = i.value + 1;
+        if (i.value == k) {
+            return head;
+        }
+        return node;
+    }
+
+    public Node nthToLastIterative(Node head, int k){
+        if(head == null) return null;
+
+        Node p1 = head;
+        Node p2 = head;
+
+        for (int i = 0; i < k - 1; i++){
+            if (p2 == null) return null;
+            p2 = p2.next;
+        }
+        if (p2 == null) return null;
+
+        while (p2.next != null){
+            p1 = p1.next;
+            p2 = p2.next;
+        }
+        return p1;
+    }
 
 
     /**

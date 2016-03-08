@@ -3,6 +3,8 @@ package com.jibarratech.linkedlists;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.concurrent.ExecutionException;
+
 import static org.junit.Assert.*;
 
 /**
@@ -17,6 +19,18 @@ public class NodeTest {
         this.node = new Node(1);
     }
 
+    /**
+     * Fills the list with n values from 2 to n
+     * @param n
+     */
+    public void fillList(int n) {
+
+        for (int i = 2; i <= n; i++) {
+            node.appendToTail(i);
+        }
+
+    }
+
     @Test
     public void testAppendToTail() throws Exception {
         node.appendToTail(2);
@@ -25,6 +39,44 @@ public class NodeTest {
 
     @Test
     public void testDeleteNode() throws Exception {
-
+        fillList(5);
+        node.deleteNode(node, 3);
+        assertEquals("1->2->4->5", node.toString());
     }
+
+    @Test
+    public void testRemoveDuplicates() throws Exception {
+        fillList(5);
+        node.appendToTail(3);
+        node.removeDuplicates(node);
+        assertEquals("1->2->3->4->5", node.toString());
+    }
+
+    @Test
+    public void testRemoveDuplicatesNoBuffer() throws Exception {
+        fillList(5);
+        node.appendToTail(3);
+        node.appendToTail(5);
+        node.removeDuplicatesNoBuffer(node);
+        assertEquals("1->2->3->4->5", node.toString());
+    }
+
+    @Test
+    public void testNthToLast() throws Exception {
+        fillList(10);
+        int n = 5;
+        Node nth = node.nthToLastRecursive(node, n);
+        assertEquals("6->7->8->9->10", nth.toString());
+    }
+
+    @Test
+    public void testNthToLastIterative() throws Exception {
+        fillList(10);
+        int n = 4;
+        Node nth = node.nthToLastIterative(node, n);
+        assertEquals("7->8->9->10", nth.toString());
+    }
+
+
+
 }
