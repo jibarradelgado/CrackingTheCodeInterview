@@ -99,6 +99,7 @@ public class Node {
         }
     }
 
+
     public class IntWrapper {
         public int value = 0;
     }
@@ -148,6 +149,17 @@ public class Node {
      * Input: the node c from the linked list a->b->c->d->e
      * Result: nothing is returned, but the new linked list looks like a->b->d->e
      */
+
+    public boolean deleteGivenNode(Node node) {
+        if(node == null || node.next == null) {
+            return false;
+        }
+
+        Node next = node.next;
+        node.data = next.data;
+        node.next = next.next;
+        return true;
+    }
 
 
     /**

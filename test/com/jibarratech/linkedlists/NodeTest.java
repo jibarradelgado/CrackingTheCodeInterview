@@ -77,6 +77,15 @@ public class NodeTest {
         assertEquals("7->8->9->10", nth.toString());
     }
 
+    @Test
+    public void testDeleteGivenNode(){
+        fillList(5);
+        Node head = node;
+        node = node.next;
+        node.deleteGivenNode(node);
+        assertEquals("1->3->4->5", head.toString());
+    }
+
 
 
 }
