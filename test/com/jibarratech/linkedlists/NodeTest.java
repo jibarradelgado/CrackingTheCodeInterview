@@ -86,6 +86,14 @@ public class NodeTest {
         assertEquals("1->3->4->5", head.toString());
     }
 
-
+    @Test
+    public void testPartition() {
+        node.appendToTail(5);
+        node.appendToTail(4);
+        node.appendToTail(3);
+        node.appendToTail(2);
+        Node result = node.partition(node, 3);
+        assertEquals("1->2->5->4->3", result.toString());
+    }
 
 }

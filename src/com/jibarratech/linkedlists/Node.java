@@ -99,7 +99,6 @@ public class Node {
         }
     }
 
-
     public class IntWrapper {
         public int value = 0;
     }
@@ -166,6 +165,46 @@ public class Node {
      * Write code to partition a linked list around a value x, such that all nodes less than
      * x come before all nodes greater than or equal to x.
      */
+    public Node partition(Node node, int x) {
+        if(node == null) {
+            return null;
+        }
+
+        Node beforeStart = null;
+        Node beforeEnd = null;
+        Node afterStart = null;
+        Node afterEnd = null;
+
+        while(node != null){
+            Node next = node.next;
+            node.next = null;
+            if(node.data < x) {
+                if(beforeStart == null){
+                    beforeStart = node;
+                    beforeEnd = beforeStart;
+                } else {
+                    beforeEnd.next = node;
+                    beforeEnd = node;
+                }
+            } else {
+                if(afterStart == null) {
+                    afterStart = node;
+                    afterEnd = afterStart;
+                } else {
+                    afterEnd.next = node;
+                    afterEnd = node;
+                }
+            }
+            node = next;
+        }
+
+        if (beforeStart == null) {
+            return afterStart;
+        }
+
+        beforeEnd.next = afterStart;
+        return beforeStart;
+    }
 
 
     /**
