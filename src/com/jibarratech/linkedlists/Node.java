@@ -7,20 +7,36 @@ import java.util.Map;
  * Created by Jorge on 2016-02-02.
  */
 public class Node {
-    Node next = null;
-    int data;
+    private Node next = null;
+    private int data;
 
     public Node(int d) {
-        data = d;
+        setData(d);
+    }
+
+    public Node getNext() {
+        return next;
+    }
+
+    public void setNext(Node next) {
+        this.next = next;
+    }
+
+    public int getData() {
+        return data;
+    }
+
+    public void setData(int data) {
+        this.data = data;
     }
 
     void appendToTail(int d){
         Node end = new Node(d);
         Node n = this;
-        while (n.next != null){
-            n = n.next;
+        while (n.getNext() != null){
+            n = n.getNext();
         }
-        n.next = end;
+        n.setNext(end);
     }
 
     @Override
@@ -28,11 +44,11 @@ public class Node {
         StringBuilder builder = new StringBuilder();
         Node n = this;
 
-        builder.append(this.data);
+        builder.append(this.getData());
 
-        while(n.next != null){
-            n = n.next;
-            builder.append("->" + n.data);
+        while(n.getNext() != null){
+            n = n.getNext();
+            builder.append("->" + n.getData());
         }
 
         return builder.toString();
@@ -42,16 +58,16 @@ public class Node {
         Node n = head;
 
         //If the head is deleted, return the rest of the list
-        if(n.data == d){
-            return head.next; //moved head
+        if(n.getData() == d){
+            return head.getNext(); //moved head
         }
 
-        while(n.next != null){
-            if(n.next.data == d){
-                n.next = n.next.next;
+        while(n.getNext() != null){
+            if(n.getNext().getData() == d){
+                n.setNext(n.getNext().getNext());
                 return head; // head didn't change
             }
-            n = n.next;
+            n = n.getNext();
         }
         return head;
     }
@@ -67,13 +83,13 @@ public class Node {
         Node previous = null;
 
         while (n != null) {
-            if (map.containsKey(n.data)) {
-                previous.next = n.next;
+            if (map.containsKey(n.getData())) {
+                previous.setNext(n.getNext());
             } else {
-                map.put(n.data, 1);
+                map.put(n.getData(), 1);
                 previous = n;
             }
-            n = n.next;
+            n = n.getNext();
         }
 
     }
@@ -88,24 +104,24 @@ public class Node {
         Node current = head;
         while (current != null) {
             Node runner = current;
-            while (runner.next != null) {
-                if (runner.next.data == current.data) {
-                    runner.next = runner.next.next;
+            while (runner.getNext() != null) {
+                if (runner.getNext().getData() == current.getData()) {
+                    runner.setNext(runner.getNext().getNext());
                 } else {
-                    runner = runner.next;
+                    runner = runner.getNext();
                 }
             }
-            current = current.next;
+            current = current.getNext();
         }
-    }
-
-    public class IntWrapper {
-        public int value = 0;
     }
 
     /**
      * Implement an algorithm to find the kth to last element of a singly linked list
      */
+    public class IntWrapper {
+        public int value = 0;
+    }
+
     public Node nthToLastRecursive(Node head, int k){
         return nthToLastRecursive(head, k, new IntWrapper());
     }
@@ -113,7 +129,7 @@ public class Node {
     public Node nthToLastRecursive(Node head, int k, IntWrapper i){
         if(head == null) return null;
 
-        Node node = nthToLastRecursive(head.next, k, i);
+        Node node = nthToLastRecursive(head.getNext(), k, i);
         i.value = i.value + 1;
         if (i.value == k) {
             return head;
@@ -129,13 +145,13 @@ public class Node {
 
         for (int i = 0; i < k - 1; i++){
             if (p2 == null) return null;
-            p2 = p2.next;
+            p2 = p2.getNext();
         }
         if (p2 == null) return null;
 
-        while (p2.next != null){
-            p1 = p1.next;
-            p2 = p2.next;
+        while (p2.getNext() != null){
+            p1 = p1.getNext();
+            p2 = p2.getNext();
         }
         return p1;
     }
@@ -150,13 +166,13 @@ public class Node {
      */
 
     public boolean deleteGivenNode(Node node) {
-        if(node == null || node.next == null) {
+        if(node == null || node.getNext() == null) {
             return false;
         }
 
-        Node next = node.next;
-        node.data = next.data;
-        node.next = next.next;
+        Node next = node.getNext();
+        node.setData(next.getData());
+        node.setNext(next.getNext());
         return true;
     }
 
@@ -176,14 +192,14 @@ public class Node {
         Node afterEnd = null;
 
         while(node != null){
-            Node next = node.next;
-            node.next = null;
-            if(node.data < x) {
+            Node next = node.getNext();
+            node.setNext(null);
+            if(node.getData() < x) {
                 if(beforeStart == null){
                     beforeStart = node;
                     beforeEnd = beforeStart;
                 } else {
-                    beforeEnd.next = node;
+                    beforeEnd.setNext(node);
                     beforeEnd = node;
                 }
             } else {
@@ -191,7 +207,7 @@ public class Node {
                     afterStart = node;
                     afterEnd = afterStart;
                 } else {
-                    afterEnd.next = node;
+                    afterEnd.setNext(node);
                     afterEnd = node;
                 }
             }
@@ -202,7 +218,7 @@ public class Node {
             return afterStart;
         }
 
-        beforeEnd.next = afterStart;
+        beforeEnd.setNext(afterStart);
         return beforeStart;
     }
 
