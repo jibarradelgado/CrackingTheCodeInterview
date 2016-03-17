@@ -3,8 +3,6 @@ package com.jibarratech.linkedlists;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.concurrent.ExecutionException;
-
 import static org.junit.Assert.*;
 
 /**
@@ -81,7 +79,7 @@ public class NodeTest {
     public void testDeleteGivenNode(){
         fillList(5);
         Node head = node;
-        node = node.next;
+        node = node.getNext();
         node.deleteGivenNode(node);
         assertEquals("1->3->4->5", head.toString());
     }
